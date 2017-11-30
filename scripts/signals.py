@@ -1,33 +1,35 @@
 import cv2
-import glob
+import json
 
-surf = cv2.xfeatures2d.SURF_create(10000)
+SIZE = 128
+
+surf = cv2.xfeatures2d.SURF_create(8000)
 
 descriptores = []
 keypoints = []
 images = []
+archivos = []
+nombres = []
 
-for file in glob.glob('./dataset/signals/*.png'):
-    img = cv2.imread(file)
+signals_data = json.load(open('./dataset/signals/signals.json'))
+for s in signals_data:
+    archivos.append(signals_data[s])
+    nombres.append(s)
+
+for file in archivos:   
+    img = cv2.imread('./dataset/signals/' + file)
+    img = cv2.resize(img, (SIZE, SIZE))
     kp, des = surf.detectAndCompute(img, None)
-    img2 = cv2.drawKeypoints(img, kp, None, (255, 0, 0), 4)
-    cv2.imshow("imagen", img2), cv2.waitKey(500)
     descriptores.append(des)
     keypoints.append(kp)
     images.append(img)
 
-
-img2 = cv2.imread('./dataset/signals/samples/120.PNG')
-img2 = cv2.resize(img2, (img.shape[0] + 100, img.shape[1] + 100))
+img2 = cv2.imread('./dataset/signals/samples/Ceda.PNG')
+img2 = cv2.resize(img2, (120, 120))
 kp2, des2 = surf.detectAndCompute(img2, None)
-
 bf = cv2.BFMatcher()
-
-matches = bf.match(descriptores[1], des2)
-
-
-img3 = cv2.drawMatches(images[1], keypoints[1], img2, kp2, matches, None)
-
-print(sum(m.distance for m in matches) / len(matches))
-
-cv2.imshow("imagen", img3), cv2.waitKey(0)
+for i in range(len(images)):
+    matches = bf.match(descriptores[i], des2)
+    img3 = cv2.drawMatches(images[i], keypoints[i], img2, kp2, matches, None)
+    print(nombres[i] + ": " + str(sum(m.distance for m in matches) / len(matches)))
+    cv2.imshow("imagen", img3), cv2.waitKey(0)
