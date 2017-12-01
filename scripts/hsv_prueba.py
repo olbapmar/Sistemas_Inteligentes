@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 import glob
-from matplotlib import pyplot as plt
 
 SIZE = 128
 
