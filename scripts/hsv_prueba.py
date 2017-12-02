@@ -10,13 +10,13 @@ for file in glob.glob('./dataset/signals/samples/*'):
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Limites de rojo
-    low_red1 = np.array([0, 50, 50])
-    up_red1 = np.array([15, 255, 255])
-    low_red2 = np.array([240, 50, 50])
-    up_red2 = np.array([255, 255, 255])
+    low_red1 = np.array([0, 100, 100])
+    up_red1 = np.array([10, 255, 255])
+    low_red2 = np.array([170, 100, 100])
+    up_red2 = np.array([180, 255, 255])
 
     mask1 = cv2.inRange(img_hsv, low_red1, up_red1)
-    mask2 = cv2.inRange(img_hsv, low_red1, up_red1)
+    mask2 = cv2.inRange(img_hsv, low_red2, up_red2)
 
     end = cv2.bitwise_or(mask1, mask2)
     kernel = np.ones((3, 3), np.uint8)

@@ -16,7 +16,7 @@ for s in signals_data:
     archivos.append(signals_data[s])
     nombres.append(s)
 
-for file in archivos:   
+for file in archivos:
     img = cv2.imread('./dataset/signals/' + file)
     img = cv2.resize(img, (SIZE, SIZE))
     kp, des = surf.detectAndCompute(img, None)
@@ -26,7 +26,7 @@ for file in archivos:
 
 img2 = cv2.imread('./dataset/signals/samples/Ceda.PNG')
 img2 = cv2.resize(img2, (120, 120))
-kp2, des2 = surf.detectAndCompute(img2, None)
+kp2, des2 = surf.detectAndCompute(cv2.Umat(img2), None)
 bf = cv2.BFMatcher()
 for i in range(len(images)):
     matches = bf.match(descriptores[i], des2)
