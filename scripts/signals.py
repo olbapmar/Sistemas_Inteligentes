@@ -24,7 +24,7 @@ for file in archivos:
     keypoints.append(kp)
     images.append(img)
 
-img2 = cv2.imread('./dataset/signals/samples/Ceda.PNG')
+img2 = cv2.imread('./dataset/signals/samples/70.PNG')
 img2 = cv2.resize(img2, (120, 120))
 kp2, des2 = surf.detectAndCompute(cv2.Umat(img2), None)
 bf = cv2.BFMatcher()

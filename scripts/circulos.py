@@ -20,7 +20,7 @@ def detectar_rojo(img):
     return end
 
 
-for file in glob.glob('./dataset/real/foto1*'):
+for file in glob.glob('./dataset/real/cir*'):
     img = cv2.imread(file)
     
     mask = detectar_rojo(img)
@@ -35,12 +35,10 @@ for file in glob.glob('./dataset/real/foto1*'):
         circulos = np.uint16(np.around(circulos))
         regiones = []
         for i in circulos[0, :]:
-            #cv2.circle(img, (i[0], i[1]), i[2], (0, 255, 0), 2)
-
             radio = i[2]
             esq = [i[0] - radio, i[1] - radio]
-            img = cv2.resize(img[esq[1]:(esq[1] + radio*2), esq[0]:(esq[0] + radio*2)], (500, 500))
-            regiones.append(img)
+            aux = cv2.resize(img[esq[1]:(esq[1] + radio*2), esq[0]:(esq[0] + radio*2)], (500, 500))
+            regiones.append(aux)
 
         surf = cv2.xfeatures2d.SURF_create(1000)
         bf = cv2.BFMatcher()
