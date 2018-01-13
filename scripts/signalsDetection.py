@@ -113,7 +113,7 @@ class CircularSignals(SignalsDetection):
         return regiones
     
 
-# Detects triangular signals.
+# Detects non-circular signals.
 class NonCircularSignals(SignalsDetection):
 
     signals = []
@@ -163,7 +163,7 @@ class OctogonalSignals(NonCircularSignals):
     signalType = "octogonal"
 
 
-# Detects octogonal signals.
+# Detects triangular signals.
 class TriangularSignals(NonCircularSignals):
 
     signals = ['ceda_paso']
