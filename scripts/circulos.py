@@ -20,11 +20,11 @@ def detectar_rojo(img):
     return end
 
 
-for file in glob.glob('./dataset/real/cir*'):
+for file in glob.glob('../dataset/real/prohibido_paso.jpg'):
     img = cv2.imread(file)
     
     mask = detectar_rojo(img)
-    end2 = cv2.bitwise_and(img, img, mask=mask)
+    #end2 = cv2.bitwise_and(img, img, mask=mask)
 
     mask = cv2.GaussianBlur(mask, (9, 9), 2, 2)
     cv2.imshow('imagen', mask), cv2.waitKey(0)
@@ -46,7 +46,7 @@ for file in glob.glob('./dataset/real/cir*'):
             cv2.imshow('region', img), cv2.waitKey(0)
             kp1, des1 = surf.detectAndCompute(cv2.UMat(img), None)
 
-            img2 = cv2.imread('./dataset/signals/80.png')
+            img2 = cv2.imread('../dataset/signals/80.png')
             kp2, des2 = surf.detectAndCompute(cv2.UMat(img2), None)
 
             matches = bf.match(des1, des2)

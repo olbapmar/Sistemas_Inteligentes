@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "C:\\Python36\\python.exe",
+    "python.pythonPath": "/Library/Frameworks/Python.framework/Versions/3.6/bin/python3",
     "python.linting.flake8Enabled": true,
     "python.linting.pylintEnabled":false
 }
