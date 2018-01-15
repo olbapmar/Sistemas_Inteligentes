@@ -30,6 +30,6 @@ kp2, des2 = surf.detectAndCompute(cv2.Umat(img2), None)
 bf = cv2.BFMatcher()
 for i in range(len(images)):
     matches = bf.match(descriptores[i], des2)
-    img3 = cv2.drawMatches(images[i], keypoints[i], img2, kp2, matches, None)
+    #img3 = cv2.drawMatches(images[i], keypoints[i], img2, kp2, matches, None)
     print(nombres[i] + ": " + str(sum(m.distance for m in matches) / len(matches)))
     cv2.imshow("imagen", img3), cv2.waitKey(0)
