@@ -39,16 +39,19 @@ class CircularSignals(SignalsDetection):
         for i in detectedSignals[0, :]:
             radio = i[2]
 
-            if ((radio < self.MAXRADIOUS) and (radio > self.MINRADIOUS)):
+            if ((radio < self.MAXRADIOUS) and (radio > self.MINRADIOUS) and 
+                  (i[0] - radio < 853) and (i[1] - radio < 480)):
 
+                print(i[0] - radio)
+                print(i[1] - radio)
                 esq = [i[0] - radio, i[1] - radio]
-                
+               
                 x = esq[0]
                 y = esq[1]
                 h = radio * 2
                 w = h
-
-                aux = cv2.resize(self.img[y:(y + h), x:(x + w)], (500, 500))
-                regiones.append(Region(aux, x, y, w, h))
+                if ((y + h > 0) and (x + w > 0)):
+                    aux = cv2.resize(self.img[y:(y + h), x:(x + w)], (500, 500))
+                    regiones.append(Region(aux, x, y, w, h))
         
         return regiones

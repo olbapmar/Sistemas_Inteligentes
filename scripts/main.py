@@ -16,15 +16,22 @@ def calcularContornos(mask):
     cnts = cnts[0] if imutils.is_cv2() else cnts[1]
     for c in cnts:
        
-        # (x, y, w, h) = cv2.boundingRect(c)
-        (x, y), radio = cv2.minEnclosingCircle(c)
-        if ((radio < 300) and (radio > 100)):
+        (x, y, w, h) = cv2.boundingRect(c)
+        # (x, y), radio = cv2.minEnclosingCircle(c)
+        max = h
+        min = w
+        if (w > h):
+            max = w
+            min = h
+
+        if ((max / min < 1.5) and (w < 200) and (w > 10)):
             cnts2.append(c)
 
     return cnts2
 
 
 def calcular_mascara(img):
+
     img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
     # Limites de rojo
@@ -37,48 +44,57 @@ def calcular_mascara(img):
     mask2 = cv2.inRange(img_hsv, low_red2, up_red2)
 
     end = cv2.bitwise_or(mask1, mask2)
-
     # end = cv2.erode(end, np.ones((3, 3)))
     # end = cv2.dilate(end, np.ones((9, 9)))
     end = cv2.GaussianBlur(end, (9, 9), 2, 2)
-    #cv2.imshow('imagen', end), cv2.waitKey(0)
+
     return end
 
 
-#vidFile = cv2.VideoCapture(0)
+vidFile = cv2.VideoCapture('../dataset/video/prueba.mp4')
 
-#fps = 25
+ret, frame = vidFile.read()
+img = frame
+img = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
 
-#ret, frame = vidFile.read() # read first frame, and the return code of the function.
-#while ret:  # note that we don't have to use frame number here, we could read from a live written file.
-    print("yes")
-    #cv2.imshow("frameWindow", frame)
-    #cv2.waitKey(int(1/fps*1000)) # time to wait between frames, in mSec
-    #ret, frame = vidFile.read()
-
-    #img = frame
-
-img = cv2.imread('../dataset/real/circulos.jpg')
-
-img = cv2.resize(img, (1280, 720), interpolation = cv2.INTER_LINEAR)
 mask = calcular_mascara(img)
 contorno = calcularContornos(mask)
 
 triangulo = TriangularSignals(img, mask, contorno)
-
 octogono = OctogonalSignals(img, mask, contorno)
-# circulo2 = CircularSignals2(img, mask, contorno)
 circular = CircularSignals(img, mask)
 
-triangulo.findSignals()
-octogono.img = triangulo.img
-octogono.findSignals()
-circular.img = octogono.img
-start = time.time()
-circular.findSignals()
 
-end = time.time()
-print(end - start)
-cv2.imshow('imagen', circular.img), cv2.waitKey(0)
+while ret:
+
+    ret, frame = vidFile.read()
+    img = frame
+    img = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
+
+    mask = calcular_mascara(img)
+    contorno = calcularContornos(mask)
+
+    # Actualiza señales triangulares
+    triangulo.actualizaImagen(img)
+    triangulo.actualizaMascara(mask)
+    triangulo.actualizaContorno(contorno)
+    triangulo.findSignals()
+
+    # Actualiza señales octogonales
+    octogono.actualizaImagen(triangulo.img)
+    octogono.actualizaMascara(mask)
+    octogono.actualizaContorno(contorno)
+    octogono.findSignals()
+
+    # Actualizar señales circulares
+    circular.actualizaImagen(octogono.img)
+    circular.actualizaMascara(mask)
+    circular.findSignals()
+    
+    cv2.imshow('imagen', octogono.img)
+    cv2.imshow('mask', mask)
+
+       
+    cv2.waitKey(int(1/24*1000))
 
 

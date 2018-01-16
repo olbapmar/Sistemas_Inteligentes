@@ -4,6 +4,11 @@ from nonCircularSignals import NonCircularSignals
 # Detects triangular signals.
 class TriangularSignals(NonCircularSignals):
 
-    signals = ['ceda_paso']
-    numberVertex = 3
-    signalType = "triangular"
+    def __init__(self, img, mask, contorno):
+        self.signals = ['ceda_paso']
+        self.numberVertex = 3
+        self.signalType = "triangular"
+
+        NonCircularSignals.__init__(self, img, mask, contorno)
+
+

@@ -15,7 +15,6 @@ class NonCircularSignals(SignalsDetection):
         self.contorno = contorno
 
     def findSignals(self):
-        print('Eyy holi')
         cnts = self.contorno
 
         # cnts = cnts[0] if imutils.is_cv2() else cnts[1]
@@ -53,3 +52,6 @@ class NonCircularSignals(SignalsDetection):
             regiones.append(Region(aux, x, y, w, h))
 
         return regiones
+
+    def actualizaContorno(self, contorno):
+        self.contorno = contorno

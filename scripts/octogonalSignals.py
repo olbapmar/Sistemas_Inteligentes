@@ -4,6 +4,9 @@ from nonCircularSignals import NonCircularSignals
 # Detects octogonal signals.
 class OctogonalSignals(NonCircularSignals):
 
-    signals = ['stop']
-    numberVertex = 8
-    signalType = "octogonal"
+    def __init__(self, img, mask, contorno):
+        self.signals = ['stop']
+        self.numberVertex = 8
+        self.signalType = "octogonal"
+
+        NonCircularSignals.__init__(self, img, mask, contorno)
