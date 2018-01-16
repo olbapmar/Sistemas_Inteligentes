@@ -21,6 +21,7 @@ class SignalsDetection:
         self.numberSignals = 0  # Number of signals detected;
         self.surf = cv2.xfeatures2d.SURF_create(1000)
         self.bf = cv2.BFMatcher()
+        self.threshold = 0.4
 
         for filename in SignalsDetection.signals:
             
@@ -53,12 +54,13 @@ class SignalsDetection:
             matches = self.bf.match(des1, SignalsDetection.descriptorSignals[sign])
             if (len(matches) != 0):
                 resultadoActual = sum(m.distance for m in matches) / len(matches)
-                if (resultadoActual < mejorResultado):
+                if (resultadoActual < mejorResultado and resultadoActual < self.threshold):
                     mejorResultado = resultadoActual
                     self.signalName = sign
 
-        # print(str(self.signalName) + ': ' + str(mejorResultado))
-        self.drawBoundingBox(region)
+        print(str(self.signalName) + ': ' + str(mejorResultado))
+        if (mejorResultado < self.threshold):
+            self.drawBoundingBox(region)
 
     # Draws the bounding box for the signal detected.
     def drawBoundingBox(self, region):

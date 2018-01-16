@@ -20,16 +20,18 @@ class NonCircularSignals(SignalsDetection):
         # cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 
         shape = []
+        vertex = []
 
         for c in cnts:
             peri = cv2.arcLength(c, True)
             approx = cv2.approxPolyDP(c, 0.04 * peri, True)
             if (self.signalType != 'circle'):
                 if len(approx) == self.numberVertex:
+                    vertex.append(approx)
                     shape.append(c)
             else:
-                #print(len(approx))
-                if len(approx) >= self.numberVertex:
+                # print(len(approx))
+                if len(approx) <= self.numberVertex:
                     shape.append(c)
 
         self.numberSignals = len(shape)
@@ -37,8 +39,11 @@ class NonCircularSignals(SignalsDetection):
 
         if shape is not None:
             regiones = self.obtenerRegiones(shape)
-            for img in regiones:
-                self.matchSignals(img)
+            for i in range(0, len(regiones)):
+                if self.signalType == 'triangular':
+                    self.matchSignals(regiones[i], shape[i], vertex[i])
+                else:
+                    self.matchSignals(regiones[i])
         
     def obtenerRegiones(self, detectedSignals):
 

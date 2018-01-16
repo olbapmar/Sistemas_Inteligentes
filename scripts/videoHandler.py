@@ -33,8 +33,8 @@ class VideoHandler:
                 max = w
                 min = h
 
-            if ((max / min < 1.5) and (w < 200) and (w > 10)):
-                cnts2.append(c)
+            #if ((max / min < 1.5) and (w < 200) and (w > 10)):
+            cnts2.append(c)
 
         return cnts2
 
@@ -53,8 +53,8 @@ class VideoHandler:
 
         end = cv2.bitwise_or(mask1, mask2)
         # end = cv2.erode(end, np.ones((3, 3)))
-        # end = cv2.dilate(end, np.ones((9, 9)))
-        end = cv2.GaussianBlur(end, (9, 9), 2, 2)
+        end = cv2.dilate(end, np.ones((2, 2)))
+        end = cv2.GaussianBlur(end, (5, 5), 0)
 
         return end
 
@@ -96,7 +96,7 @@ class VideoHandler:
             circular.findSignals()
             
             cv2.imshow('imagen', octogono.img)
-            # cv2.imshow('mask', mask)    
+            cv2.imshow('mask', mask)    
 
             # print(int(1/24*1000) - (int)(start - end))
             cv2.waitKey(1)
@@ -108,12 +108,12 @@ class VideoHandler:
         ret, img = vidFile.read()
         self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
 
-        time.sleep(10)
+        time.sleep(7)
         while ret and self.noParar:
 
             ret, img = vidFile.read()
             self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
-            time.sleep(int(1/25))
+            time.sleep(1/25)
 
 
 
