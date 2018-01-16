@@ -10,9 +10,9 @@ class NonCircularSignals(SignalsDetection):
     numberVertex = 0
     signalType = ''
 
-    def __init__(self, img, mask, contorno):
-        super().__init__(img, mask)
-        self.contorno = contorno
+    def __init__(self):
+        super().__init__()
+        self.contorno = None
 
     def findSignals(self):
         cnts = self.contorno
@@ -28,12 +28,12 @@ class NonCircularSignals(SignalsDetection):
                 if len(approx) == self.numberVertex:
                     shape.append(c)
             else:
-                print(len(approx))
+                #print(len(approx))
                 if len(approx) >= self.numberVertex:
                     shape.append(c)
 
         self.numberSignals = len(shape)
-        print("Detected " + str(self.numberSignals) + " " + self.signalType)
+        # print("Detected " + str(self.numberSignals) + " " + self.signalType)
 
         if shape is not None:
             regiones = self.obtenerRegiones(shape)

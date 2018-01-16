@@ -12,11 +12,11 @@ class SignalsDetection:
     signals = ['30', '40', '50', '60', '70', '80', '100', '120',
                'no_adelantar', 'prohibido_paso', 'ceda_paso', 'stop']
 
-    def __init__(self, img, mask):
+    def __init__(self):
         
-        self.img = img
+        self.img = None
         self.signalName = ''
-        self.mask = mask
+        self.mask = None
         self.detected = False  # True if a signal has been detected.
         self.numberSignals = 0  # Number of signals detected;
         self.surf = cv2.xfeatures2d.SURF_create(1000)
@@ -57,7 +57,7 @@ class SignalsDetection:
                     mejorResultado = resultadoActual
                     self.signalName = sign
 
-        print(str(self.signalName) + ': ' + str(mejorResultado))
+        # print(str(self.signalName) + ': ' + str(mejorResultado))
         self.drawBoundingBox(region)
 
     # Draws the bounding box for the signal detected.

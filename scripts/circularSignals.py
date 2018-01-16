@@ -19,8 +19,7 @@ class CircularSignals(SignalsDetection):
                                     param2=30, minRadius=5, maxRadius=(int)
                                     (self.img.shape[0] / 4))
         
-        print("Detected " + str(self.numberSignals) + " " +
-              self.signalType)
+        # print("Detected " + str(self.numberSignals) + " " + self.signalType)
         
         if circulos is not None:
 
@@ -42,8 +41,6 @@ class CircularSignals(SignalsDetection):
             if ((radio < self.MAXRADIOUS) and (radio > self.MINRADIOUS) and 
                   (i[0] - radio < 853) and (i[1] - radio < 480)):
 
-                print(i[0] - radio)
-                print(i[1] - radio)
                 esq = [i[0] - radio, i[1] - radio]
                
                 x = esq[0]
