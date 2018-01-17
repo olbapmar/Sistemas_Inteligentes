@@ -33,8 +33,8 @@ class VideoHandler:
                 max = w
                 min = h
 
-            #if ((max / min < 1.5) and (w < 200) and (w > 10)):
-            cnts2.append(c)
+            if ((max / min < 1.4) and (max < 200) and (min > 10)):
+                cnts2.append(c)
 
         return cnts2
 
@@ -43,9 +43,9 @@ class VideoHandler:
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # Limites de rojo
-        low_red1 = np.array([0, 100, 100])
-        up_red1 = np.array([25, 255, 255])
-        low_red2 = np.array([155, 100, 100])
+        low_red1 = np.array([0, 40, 40])
+        up_red1 = np.array([20, 255, 255])
+        low_red2 = np.array([160, 40, 40])
         up_red2 = np.array([180, 255, 255])
 
         mask1 = cv2.inRange(img_hsv, low_red1, up_red1)
@@ -53,8 +53,8 @@ class VideoHandler:
 
         end = cv2.bitwise_or(mask1, mask2)
         # end = cv2.erode(end, np.ones((3, 3)))
-        end = cv2.dilate(end, np.ones((2, 2)))
-        end = cv2.GaussianBlur(end, (5, 5), 0)
+        end = cv2.dilate(end, np.ones((3, 3)))
+        end = cv2.GaussianBlur(end, (5, 5), 2, 2)
 
         return end
 

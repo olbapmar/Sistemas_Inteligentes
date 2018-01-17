@@ -20,7 +20,6 @@ class TriangularSignals(NonCircularSignals):
         min = 1000
 
         for coordenada in approx:
-
             if coordenada[0, 1] < min:
                 min = coordenada[0, 1]
 

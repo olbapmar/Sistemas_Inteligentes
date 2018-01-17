@@ -21,7 +21,7 @@ class SignalsDetection:
         self.numberSignals = 0  # Number of signals detected;
         self.surf = cv2.xfeatures2d.SURF_create(1000)
         self.bf = cv2.BFMatcher()
-        self.threshold = 0.4
+        self.threshold = 0.3
 
         for filename in SignalsDetection.signals:
             
@@ -45,7 +45,7 @@ class SignalsDetection:
     # Given a region of an image, it calculates which signal matches best.
     def matchSignals(self, region):
 
-        mejorResultado = 100
+        mejorResultado = 1000
         kp1, des1 = self.surf.detectAndCompute(cv2.UMat(region.img), None)
 
         # for key, value in SignalsDetection.descriptorSignals.items():
@@ -57,9 +57,12 @@ class SignalsDetection:
                 if (resultadoActual < mejorResultado and resultadoActual < self.threshold):
                     mejorResultado = resultadoActual
                     self.signalName = sign
+                    print(str(self.signalName) + ': ' + str(mejorResultado))
 
-        print(str(self.signalName) + ': ' + str(mejorResultado))
+        
+        
         if (mejorResultado < self.threshold):
+            print(str(self.signalName) + ': ' + str(mejorResultado))
             self.drawBoundingBox(region)
 
     # Draws the bounding box for the signal detected.
