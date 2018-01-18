@@ -18,7 +18,7 @@ class VideoHandler:
         pass
 
     def calcularContornos(self, mask):
-        cnts = cv2.findContours(mask, cv2.RETR_EXTERNAL,
+        cnts = cv2.findContours(mask, cv2.RETR_LIST,
                                 cv2.CHAIN_APPROX_SIMPLE)
 
         cnts2 = []
@@ -33,28 +33,38 @@ class VideoHandler:
                 max = w
                 min = h
 
-            if ((max / min < 1.4) and (max < 200) and (min > 10)):
+            if ((max / min < 1.4) and (max < 200) and (min > 30)):
                 cnts2.append(c)
 
         return cnts2
 
     def calcular_mascara(self, img):
 
+        img_lab = cv2.cvtColor(img, cv2.COLOR_BGR2Lab)
+
         img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # Limites de rojo
-        low_red1 = np.array([0, 40, 40])
-        up_red1 = np.array([20, 255, 255])
-        low_red2 = np.array([160, 40, 40])
-        up_red2 = np.array([180, 255, 255])
+        #low_red1 = np.array([0, 30, 30])
+        #up_red1 = np.array([20, 255, 255])
+        #low_red2 = np.array([160, 30, 30])
+        #up_red2 = np.array([180, 255, 255])
 
-        mask1 = cv2.inRange(img_hsv, low_red1, up_red1)
-        mask2 = cv2.inRange(img_hsv, low_red2, up_red2)
+        #mask = cv2.inRange(img_hsv, low_red1, up_red1)
+        #mask2 = cv2.inRange(img_hsv, low_red2, up_red2)
+        #low = np.array([0,0,90])
+        #up = np.array([80,80,255])
+        #mask = cv2.inRange(img, low, up)
 
-        end = cv2.bitwise_or(mask1, mask2)
-        # end = cv2.erode(end, np.ones((3, 3)))
-        end = cv2.dilate(end, np.ones((3, 3)))
-        end = cv2.GaussianBlur(end, (5, 5), 2, 2)
+        lab_down = np.array([5, 150, 64])
+        lab_up = np.array([240, 256, 191])
+
+        mask = cv2.inRange(img_lab, lab_down, lab_up)
+
+        #mask = cv2.bitwise_or(mask, mask2)
+        # end = cv2.erode(mask, np.ones((3, 3)))
+        end = cv2.dilate(mask, np.ones((3, 3)))
+        end = cv2.GaussianBlur(mask, (3,3), 1,1)
 
         return end
 

@@ -10,7 +10,8 @@ class SignalsDetection:
     descriptorSignals = {}
 
     signals = ['30', '40', '50', '60', '70', '80', '100', '120',
-               'no_adelantar', 'prohibido_paso', 'ceda_paso', 'stop']
+               'prohibido_paso',  'stop',  'No_Peligrosas', 'Peatones',
+               'no_adelantar', 'No_aparcar']
 
     def __init__(self):
         
@@ -21,12 +22,13 @@ class SignalsDetection:
         self.numberSignals = 0  # Number of signals detected;
         self.surf = cv2.xfeatures2d.SURF_create(1000)
         self.bf = cv2.BFMatcher()
-        self.threshold = 0.3
+        self.threshold = 0.32
 
         for filename in SignalsDetection.signals:
             
-            self.img2 = cv2.imread('../dataset/signals/' + filename + '.png')
-            kp2, des2 = self.surf.detectAndCompute(cv2.UMat(self.img2), None)
+            img2 = cv2.imread('../dataset/signals/' + filename + '.png')
+            img2 = cv2.resize(img2, (500,500), cv2.INTER_LINEAR)
+            kp2, des2 = self.surf.detectAndCompute(cv2.UMat(img2), None)
             SignalsDetection.descriptorSignals[filename] = des2
 
         # Shows binary image.

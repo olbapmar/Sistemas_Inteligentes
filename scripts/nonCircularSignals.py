@@ -24,7 +24,7 @@ class NonCircularSignals(SignalsDetection):
 
         for c in cnts:
             peri = cv2.arcLength(c, True)
-            approx = cv2.approxPolyDP(c, 0.04 * peri, True)
+            approx = cv2.approxPolyDP(c, 0.03 * peri, True)
             if (self.signalType != 'circle'):
                 if len(approx) == self.numberVertex:
                     vertex.append(approx)
