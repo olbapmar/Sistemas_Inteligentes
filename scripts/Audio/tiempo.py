@@ -7,7 +7,7 @@ import json
 class Tiempo_api:
     api_key = "d2d0ade56c57389b60485410a176c228"
 
-    def textoClima(self,nombre):
+    def textoClima(self, nombre):
         conn = http.client.HTTPConnection("api.openweathermap.org")
         params = urllib.parse.urlencode({
             "q": nombre,
@@ -19,9 +19,11 @@ class Tiempo_api:
         conn.request("GET", "/data/2.5/weather/?" + params)
         response = conn.getresponse()
 
-        respuesta = json.loads(response.read().decode('utf-8'))
+        if(response.status == 200):
+            try:
+                respuesta = json.loads(response.read().decode('utf-8'))
+                return "El tiempo en " + nombre + " es: " + respuesta["weather"][0]["description"] + ", con una temperatura de " + str(respuesta["main"]["temp"]).partition(".")[0] + " grados"
+            except KeyError:
+                pass
 
-        print("El tiempo en " + nombre + " es: " + respuesta["weather"][0]["description"] + ", con una temperatura de " + str(respuesta["main"]["temp"]).partition(".")[0] + " grados")
-        
-    
-Tiempo_api().textoClima("Santa Cruz de Tenerife")
+        return None

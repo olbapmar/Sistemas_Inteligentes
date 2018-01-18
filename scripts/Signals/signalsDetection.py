@@ -26,7 +26,7 @@ class SignalsDetection:
 
         for filename in SignalsDetection.signals:
             
-            img2 = cv2.imread('../dataset/signals/' + filename + '.png')
+            img2 = cv2.imread('../../dataset/signals/' + filename + '.png')
             img2 = cv2.resize(img2, (500,500), cv2.INTER_LINEAR)
             kp2, des2 = self.surf.detectAndCompute(cv2.UMat(img2), None)
             SignalsDetection.descriptorSignals[filename] = des2
