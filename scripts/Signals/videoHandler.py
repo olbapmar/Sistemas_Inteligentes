@@ -121,7 +121,6 @@ class VideoHandler:
 
         while ret and self.noParar:
             ret, img = vidFile.read()
-            print(self.noParar)
             if ret:
                 self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
             time.sleep(1/25)
