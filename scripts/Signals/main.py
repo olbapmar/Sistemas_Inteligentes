@@ -6,9 +6,9 @@ print(sys.argv[1])
 
 try:
     videoHandler.start(sys.argv[1])
-except (KeyboardInterrupt, SystemExit):
-    videoHandler.noParar = False
-    sys.exit()
-            
+except Exception as e:
+    raise e
+except KeyboardInterrupt:
+    videoHandler.parar()
 
 

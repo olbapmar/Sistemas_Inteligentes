@@ -17,7 +17,7 @@ class CircularSignals(SignalsDetection):
     def findSignals(self):
         circulos = cv2.HoughCircles(self.mask, cv2.HOUGH_GRADIENT, 1, 20,
                                     param2=30, minRadius=5, maxRadius=(int)
-                                    (self.img.shape[0] / 4))
+                                    (150))
         
         # print("Detected " + str(self.numberSignals) + " " + self.signalType)
         

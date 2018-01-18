@@ -2,6 +2,7 @@ from circularSignals import CircularSignals
 from triangularSignals import TriangularSignals
 from octogonalSignals import OctogonalSignals
 from threading import Thread
+from threading import Event
 
 import time
 import cv2
@@ -15,6 +16,7 @@ class VideoHandler:
         self.frame = None
         self.video = None
         self.noParar = True
+        self.event = Event()
         pass
 
     def calcularContornos(self, mask):
@@ -41,8 +43,6 @@ class VideoHandler:
     def calcular_mascara(self, img):
 
         img_lab = cv2.cvtColor(img, cv2.COLOR_BGR2Lab)
-
-        img_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
         # Limites de rojo
         #low_red1 = np.array([0, 30, 30])
@@ -75,12 +75,12 @@ class VideoHandler:
  
         Thread(target=self.updateVideo, args=()).start()
         
-
+        self.event.wait()
         triangulo = TriangularSignals()
         octogono = OctogonalSignals()
         circular = CircularSignals()
 
-        while self.frame is not None:
+        while self.frame is not None and self.noParar:
 
             # start = time.time()
 
@@ -117,14 +117,16 @@ class VideoHandler:
         #fps = vidFile.get(cv2.CV_CAP_PROP_FPS)
         ret, img = vidFile.read()
         self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
+        self.event.set()
 
-        time.sleep(7)
         while ret and self.noParar:
-
             ret, img = vidFile.read()
-            self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
+            print(self.noParar)
+            if ret:
+                self.frame = cv2.resize(img, (853, 480), interpolation = cv2.INTER_LINEAR)
             time.sleep(1/25)
 
+        self.noParar = False
 
-
-
+    def parar(self):
+        self.noParar = False
