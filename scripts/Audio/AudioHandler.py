@@ -16,7 +16,7 @@ class AudioHandler:
     FORMAT = pyaudio.paInt16
     CHANNELS = 1
     RATE = 16000
-    THRESHOLD = 2500 
+    THRESHOLD = 2300 
 
     SILENCE_LIMIT = 1
 
@@ -24,6 +24,7 @@ class AudioHandler:
 
     def __init__(self):
         return 
+
 
     def audio_int(self, num_samples=50):
         """ Gets average audio intensity of your mic sound. You can use it to get
@@ -47,13 +48,10 @@ class AudioHandler:
         p.terminate()
         return r
 
+
     def listen_for_speech(self, threshold=THRESHOLD):
         """
-        Listens to Microphone, extracts phrases from it and sends it to 
-        Google's TTS service and returns response. a "phrase" is sound 
-        surrounded by silence (according to threshold). num_phrases controls
-        how many phrases to process before finishing the listening process 
-        (-1 for infinite). 
+        Escucha del micrófono hasta que detecta un sonido, para de grabar cuando se deja de hablar
         """
 
         p = pyaudio.PyAudio()
@@ -93,8 +91,7 @@ class AudioHandler:
                 prev_audio.append(cur_data)
 
     def save_speech(self, data, p):
-        """ Saves mic data to temporary WAV file. Returns filename of saved 
-            file """
+        """ Guarda los datos en un archivo wav temporal """
 
         filename = 'output_'+str(int(time.time()))
         data = b''.join(data)
