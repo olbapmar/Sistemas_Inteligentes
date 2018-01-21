@@ -18,7 +18,6 @@ class Twitter:
         aux = api.update_status(status=texto) 
         print("Tuit enviado: " + texto)
         if aux is not None:
-            self.play_wav('scripts\Audio\offline\Tweet.wav', False)
             return True
         else:
             return False
