@@ -13,9 +13,6 @@
 import http.client
 from xml.etree import ElementTree
 import time
-#Note: The way to get api key:
-#Free: https://www.microsoft.com/cognitive-services/en-us/subscriptions?productId=/products/Bing.Speech.Preview
-#Paid: https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/Bing.Speech/pricingtier/S0
 
 class Sintetizador:
     apiKey = "528e03982d034cb184c0bc1d12c4d310"
@@ -28,8 +25,7 @@ class Sintetizador:
     path = "/sts/v1.0/issueToken"
 
     def access_token(self):
-        # Connect to server to get the Access Token
-        print ("Connect to server to get the Access Token")
+        print ("Obteniendo token de acceso")
         conn = http.client.HTTPSConnection(Sintetizador.AccessTokenHost)
         conn.request("POST", Sintetizador.path, Sintetizador.params, Sintetizador.headers)
         response = conn.getresponse()
@@ -56,9 +52,9 @@ class Sintetizador:
                     "X-Microsoft-OutputFormat": "riff-16khz-16bit-mono-pcm", 
                     "Authorization": "Bearer " + accesstoken,
                     "User-Agent": "Proyecto de Sistemas"}
-                    
-        #Connect to server to synthesize the wave
-        print ("\nConnect to server to synthesize the wave")
+                   
+
+        print ("Sintetizando...")
         conn = http.client.HTTPSConnection("speech.platform.bing.com")
         conn.request("POST", "/synthesize", ElementTree.tostring(body), headers)
         response = conn.getresponse()

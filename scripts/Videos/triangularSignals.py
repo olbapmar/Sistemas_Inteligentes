@@ -30,8 +30,10 @@ class TriangularSignals(NonCircularSignals):
         
         if verticesParalelos == 2:
             self.signalName = 'Ceda el paso'
+            print("Ceda")
         else:
             self.signalName = 'Peligro'
+            print("Peligro")
 
         self.drawBoundingBox(region)
    

@@ -11,7 +11,7 @@ class SignalsDetection:
 
     signals = ['30', '40', '50', '60', '70', '80', '100', '120',
                'prohibido_paso',  'stop',  'No_Peligrosas', 'Peatones',
-               'no_adelantar', 'No_aparcar']
+               'no_adelantar', 'No_aparcar', '5t']
 
     def __init__(self):
         

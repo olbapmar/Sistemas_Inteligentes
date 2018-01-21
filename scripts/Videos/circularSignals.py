@@ -8,7 +8,7 @@ import numpy as np
 class CircularSignals(SignalsDetection):
 
     signals = ['30', '40', '50', '60', '70', '80', '100', '120',
-               'no_adelantar','prohibido_paso', 'Peatones', 'No_Peligrosas', 'No_aparcar']
+               'no_adelantar','prohibido_paso', 'Peatones', 'No_Peligrosas', 'No_aparcar', '5t']
 
     signalType = "circular"
     MINRADIOUS = 10

@@ -81,9 +81,6 @@ class VideoHandler:
         semaforos = Semaforo()
 
         while self.frame is not None and self.noParar:
-
-            # start = time.time()
-
             img = self.frame
             mask = self.calcular_mascara(img)
             #self.calcularMascaraSemaforo(img)
@@ -107,7 +104,7 @@ class VideoHandler:
             circular.findSignals()
 
             #semaforos.contornos(img)
-            cv2.drawContours(img, semaforos.contornos(img), -1, (0, 255, 0), 2)
+            #cv2.drawContours(img, semaforos.contornos(img), -1, (0, 255, 0), 2)
 
             
             cv2.imshow('imagen', octogono.img)
