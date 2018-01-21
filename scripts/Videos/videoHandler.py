@@ -1,6 +1,7 @@
 from circularSignals import CircularSignals
 from triangularSignals import TriangularSignals
 from octogonalSignals import OctogonalSignals
+from semaforo import Semaforo
 from threading import Thread
 from threading import Event
 
@@ -20,7 +21,7 @@ class VideoHandler:
         pass
 
     def calcularContornos(self, mask):
-        _, cnts, _ = cv2.findContours(mask, cv2.RETR_LIST,
+        _, cnts, __ = cv2.findContours(mask, cv2.RETR_LIST,
                                 cv2.CHAIN_APPROX_SIMPLE)
 
         cnts2 = []
@@ -67,47 +68,9 @@ class VideoHandler:
         end = cv2.GaussianBlur(mask, (3, 3), 1, 1)
 
         return end
-    
-     # Calcula la máscara usada para detectar los semáforos.
-    
-    def calcularMascaraSemaforo(self, img):
 
-        # Pasamos la imagen a blanco y negro
-        img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-        topHat = cv2.morphologyEx(img_gray, cv2.MORPH_TOPHAT, np.ones((11, 11),
-                                  np.uint8))
-        
-        topHat = cv2.GaussianBlur(topHat, (3, 3), 1, 1)
-
-        _, topHat = cv2.threshold(topHat, 127, 255, cv2.THRESH_BINARY)
-
-        _, contornos, herencia = cv2.findContours(topHat, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
-
-        cv2.imshow('topHat', topHat)
-
-        # contornos = contornos[0] if imutils.is_cv2() else contornos[1]
-        herencia = herencia[0]
-        cnts2 = []
-
-        for i in range(0, len(contornos)):
-
-            (x, y, w, h) = cv2.boundingRect(contornos[i])
-
-            max = h
-            min = w
-            if (w > h):
-                max = w
-                min = h
-
-            # cv2.isContourConvex(contornos[i]) and hierarchy[i][2] == -1
-            if ((max / min < 1.8 and max < 20) and cv2.isContourConvex(contornos[i]) and herencia[i][2] == -1):
-                cnts2.append(contornos[i])
-
-        return cnts2
 
     def start(self, video):
-
         self.video = video
         Thread(target=self.updateVideo, args=()).start()
         
@@ -115,6 +78,7 @@ class VideoHandler:
         triangulo = TriangularSignals()
         octogono = OctogonalSignals()
         circular = CircularSignals()
+        semaforos = Semaforo()
 
         while self.frame is not None and self.noParar:
 
@@ -123,7 +87,6 @@ class VideoHandler:
             img = self.frame
             mask = self.calcular_mascara(img)
             #self.calcularMascaraSemaforo(img)
-            cv2.drawContours(img, self.calcularMascaraSemaforo(img), -1, (0, 255, 0), 2)
             contorno = self.calcularContornos(mask)
 
             # Actualiza señales triangulares
@@ -142,6 +105,10 @@ class VideoHandler:
             circular.actualizaImagen(octogono.img)
             circular.actualizaMascara(mask)
             circular.findSignals()
+
+            #semaforos.contornos(img)
+            cv2.drawContours(img, semaforos.contornos(img), -1, (0, 255, 0), 2)
+
             
             cv2.imshow('imagen', octogono.img)
             cv2.imshow('mask', mask)
@@ -150,9 +117,7 @@ class VideoHandler:
             # print(int(1/24*1000) - (int)(start - end))
             cv2.waitKey(1)
 
-
     def updateVideo(self):
-
         vidFile = cv2.VideoCapture(self.video)
         # fps = vidFile.get(cv2.CV_CAP_PROP_FPS)
         ret, img = vidFile.read()
