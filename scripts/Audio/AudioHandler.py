@@ -113,6 +113,8 @@ class AudioHandler:
             if(texto.startswith("Nuevo tweet")):
                 texto = texto.replace('Nuevo tweet', '', 1)
                 exito = Twitter().enviar_tweet(texto = texto.strip().capitalize())
+                if exito:
+                    self.play_wav('scripts/Audio/offline/Tweet', False)
             elif(texto.startswith("Dime el tiempo en")):
                 texto = Tiempo_api().textoClima(texto.replace('Dime el tiempo en', '', 1).strip().replace('.',''))
                 if texto is not None:
