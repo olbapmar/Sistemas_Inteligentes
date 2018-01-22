@@ -30,3 +30,9 @@ python ./scripts/Videos/semaforos/main_semaforos.py ruta_al_video
 ```
 
 Bajo `dataset/videos_de_ejemplo` se encuentran vídeos con, como su nombre indica, videos con señales y semáforos.
+
+**Requerimientos**
+
+* OpenCV para python, con los contrib incluidos
+* Tweepy
+* PyAudio
