@@ -21,7 +21,8 @@ python ./scripts/Audio/Ventana.py
 
 Para el caso de las señales:
 ```
-python ./scripts/Videos/main.py ruta_al_video
+cd scripts/Videos/
+python ./main.py ruta_al_video
 ```
 
 Para el caso de los semáforos:
