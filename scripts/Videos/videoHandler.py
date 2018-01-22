@@ -1,7 +1,6 @@
 from circularSignals import CircularSignals
 from triangularSignals import TriangularSignals
 from octogonalSignals import OctogonalSignals
-from semaforo import Semaforo
 from threading import Thread
 from threading import Event
 
@@ -69,7 +68,6 @@ class VideoHandler:
 
         return end
 
-
     def start(self, video):
         self.video = video
         Thread(target=self.updateVideo, args=()).start()
@@ -78,7 +76,6 @@ class VideoHandler:
         triangulo = TriangularSignals()
         octogono = OctogonalSignals()
         circular = CircularSignals()
-        semaforos = Semaforo()
 
         while self.frame is not None and self.noParar:
             img = self.frame
