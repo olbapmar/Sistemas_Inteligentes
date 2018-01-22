@@ -7,7 +7,7 @@ import numpy as np
 # Detects circular signals.
 class CircularSignals(SignalsDetection):
 
-    signals = ['30', '40', '50', '60', '70', '80', '100', '120',
+    signals = ['30', '40', '50', '60', '70', '80', '90','100', '120',
                'no_adelantar','prohibido_paso', 'Peatones', 'No_Peligrosas', 'No_aparcar', '5t']
 
     signalType = "circular"
