@@ -29,7 +29,7 @@ Para el caso de los semáforos:
 python ./scripts/Videos/semaforos/main_semaforos.py ruta_al_video
 ```
 
-Bajo `dataset/videos_de_ejemplo` se encuentran vídeos con, como su nombre indica, videos con señales y semáforos.
+En [este enlace](https://drive.google.com/open?id=1m4wjfbkHHHabnGZWm464FRfb_P_XgJJb) se encuentran vídeos con, como su nombre indica, videos con señales y semáforos.
 
 **Requerimientos**
 
